@@ -5,10 +5,12 @@ import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './pages/auth/context/AuthProvider.tsx'
 
+const accessToken = true
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <AuthProvider>
+      <AuthProvider defaultIsLogged={!!accessToken}>
         <App />
       </AuthProvider>
     </BrowserRouter>

@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { AuthContext } from './context'
 
 interface Props {
+  defaultIsLogged: boolean
   children: React.ReactNode
 }
 
-export const AuthProvider = ({ children }: Props) => {
-  const [isLogged, setIsLogged] = useState(false)
+export const AuthProvider = ({ defaultIsLogged, children }: Props) => {
+  const [isLogged, setIsLogged] = useState(defaultIsLogged)
 
   const authState = {
     isLogged,
