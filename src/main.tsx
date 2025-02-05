@@ -4,8 +4,13 @@ import './index.css'
 import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './pages/auth/context/AuthProvider.tsx'
+import { storage } from './utils/storage.ts'
+import { setAuthorizationHeader } from './api/client.ts'
 
-const accessToken = true
+const accessToken = storage.get({ key: 'auth' })
+if (accessToken) {
+  setAuthorizationHeader({ accessToken })
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
