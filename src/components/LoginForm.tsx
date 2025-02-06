@@ -43,8 +43,11 @@ export const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-2xl border border-zinc-200 p-3"
+    >
+      <div className="mb-2 flex items-center justify-center gap-x-1">
         <label htmlFor="username">Username</label>
         <input
           onChange={handleInputChange}
@@ -52,9 +55,10 @@ export const LoginForm = () => {
           type="text"
           id="username"
           name="username"
+          className="rounded-md border border-zinc-200 px-1"
         />
       </div>
-      <div>
+      <div className="mb-4 flex items-center justify-center gap-x-1">
         <label htmlFor="password">Password</label>
         <input
           onChange={handleInputChange}
@@ -62,9 +66,15 @@ export const LoginForm = () => {
           type="password"
           id="password"
           name="password"
+          className="rounded-md border border-zinc-200 px-1"
         />
       </div>
-      <button type="submit">login</button>
+      <button
+        type="submit"
+        className="cursor-pointer rounded-xl border border-zinc-200 px-3 py-1 uppercase transition-all duration-300 ease-in-out hover:bg-zinc-500"
+      >
+        login
+      </button>
     </form>
   )
 }
