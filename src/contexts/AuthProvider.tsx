@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AuthContext } from './context'
+import { AuthContext } from './authContext'
 
 interface Props {
   defaultIsLogged: boolean
