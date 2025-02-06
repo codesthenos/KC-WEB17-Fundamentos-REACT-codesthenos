@@ -5,7 +5,7 @@ import { login } from '../pages/auth/service'
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -31,7 +31,7 @@ export const LoginForm = () => {
     try {
       setIsLoading(true)
 
-      await login({ username: formData.username, password: formData.password })
+      await login({ email: formData.email, password: formData.password })
       onLogin()
       navigate(location.state?.from ?? '/', { replace: true })
     } catch (error) {
@@ -47,18 +47,18 @@ export const LoginForm = () => {
       onSubmit={handleSubmit}
       className="rounded-2xl border border-zinc-200 p-3"
     >
-      <div className="mb-2 flex items-center justify-center gap-x-1">
-        <label htmlFor="username">Username</label>
+      <div className="mb-2 flex items-center justify-between gap-x-1">
+        <label htmlFor="email">Email</label>
         <input
           onChange={handleInputChange}
-          value={formData.username}
+          value={formData.email}
           type="text"
-          id="username"
-          name="username"
+          id="email"
+          name="email"
           className="rounded-md border border-zinc-200 px-1"
         />
       </div>
-      <div className="mb-4 flex items-center justify-center gap-x-1">
+      <div className="mb-4 flex items-center justify-between gap-x-1">
         <label htmlFor="password">Password</label>
         <input
           onChange={handleInputChange}
