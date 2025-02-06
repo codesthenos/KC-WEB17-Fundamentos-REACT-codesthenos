@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/authContext'
 import { useState } from 'react'
 import { login } from '../pages/auth/service'
 import { LoadingSpinner } from './LoadingSpinner'
+import { isAxiosError } from 'axios'
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,7 @@ export const LoginForm = () => {
     password: ''
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<unknown>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -36,53 +37,62 @@ export const LoginForm = () => {
       onLogin()
       navigate(location.state?.from ?? '/', { replace: true })
     } catch (error) {
-      //TODO
-      setError(error.message)
+      if (isAxiosError(error)) {
+        let message = 'ERROR'
+        if (error.code === 'ERR_NETWORK') {
+          message = 'SERVER ERROR'
+        } else if (error.code === 'ERR_BAD_REQUEST') {
+          message = 'Wrong credentials'
+        }
+        setError(message)
+      }
     } finally {
       setIsLoading(false)
     }
   }
   const isDisabled = isLoading || !formData.email || !formData.password
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="relative rounded-2xl border border-zinc-200 p-3"
-    >
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-zinc-900">
-          <LoadingSpinner />
-        </div>
-      )}
-      {error && <span className="text-red-500">{error}</span>}
-      <div className="mb-2 flex items-center justify-between gap-x-1">
-        <label htmlFor="email">Email</label>
-        <input
-          onChange={handleInputChange}
-          value={formData.email}
-          type="text"
-          id="email"
-          name="email"
-          className="rounded-md border border-zinc-200 px-1"
-        />
-      </div>
-      <div className="mb-4 flex items-center justify-between gap-x-1">
-        <label htmlFor="password">Password</label>
-        <input
-          onChange={handleInputChange}
-          value={formData.password}
-          type="password"
-          id="password"
-          name="password"
-          className="rounded-md border border-zinc-200 px-1"
-        />
-      </div>
-      <button
-        type="submit"
-        className="cursor-pointer rounded-xl border border-zinc-200 px-3 py-1 uppercase transition-all duration-300 ease-in-out hover:bg-zinc-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
-        disabled={isDisabled}
+    <>
+      {error && <span className="mb-3 block text-red-500">{error}</span>}
+      <form
+        onSubmit={handleSubmit}
+        className="relative rounded-2xl border border-zinc-200 p-3"
       >
-        login
-      </button>
-    </form>
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-zinc-900">
+            <LoadingSpinner />
+          </div>
+        )}
+        <div className="mb-2 flex items-center justify-between gap-x-1">
+          <label htmlFor="email">Email</label>
+          <input
+            onChange={handleInputChange}
+            value={formData.email}
+            type="text"
+            id="email"
+            name="email"
+            className="rounded-md border border-zinc-200 px-1"
+          />
+        </div>
+        <div className="mb-4 flex items-center justify-between gap-x-1">
+          <label htmlFor="password">Password</label>
+          <input
+            onChange={handleInputChange}
+            value={formData.password}
+            type="password"
+            id="password"
+            name="password"
+            className="rounded-md border border-zinc-200 px-1"
+          />
+        </div>
+        <button
+          type="submit"
+          className="cursor-pointer rounded-xl border border-zinc-200 px-3 py-1 uppercase transition-all duration-300 ease-in-out hover:bg-zinc-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+          disabled={isDisabled}
+        >
+          login
+        </button>
+      </form>
+    </>
   )
 }
