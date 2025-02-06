@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/authContext'
 import { useState } from 'react'
 import { login } from '../pages/auth/service'
+import { LoadingSpinner } from './LoadingSpinner'
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -45,8 +46,13 @@ export const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-2xl border border-zinc-200 p-3"
+      className="relative rounded-2xl border border-zinc-200 p-3"
     >
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-zinc-900">
+          <LoadingSpinner />
+        </div>
+      )}
       <div className="mb-2 flex items-center justify-between gap-x-1">
         <label htmlFor="email">Email</label>
         <input
