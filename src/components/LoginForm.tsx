@@ -10,7 +10,7 @@ export const LoginForm = () => {
     password: ''
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<unknown>(null)
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -37,7 +37,7 @@ export const LoginForm = () => {
       navigate(location.state?.from ?? '/', { replace: true })
     } catch (error) {
       //TODO
-      alert(error)
+      setError(error.message)
     } finally {
       setIsLoading(false)
     }
@@ -53,6 +53,7 @@ export const LoginForm = () => {
           <LoadingSpinner />
         </div>
       )}
+      {error && <span className="text-red-500">{error}</span>}
       <div className="mb-2 flex items-center justify-between gap-x-1">
         <label htmlFor="email">Email</label>
         <input
