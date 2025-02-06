@@ -4,6 +4,7 @@ import { AdvertDetailPage } from './pages/adverts/AdvertDetail'
 import { NewAdvertPage } from './pages/adverts/NewAdvert'
 import { LoginPage } from './pages/auth/Login'
 import { NotFoundPage } from './pages/NotFound'
+import { AuthGuard } from './components/auth/AuthGuard'
 
 function App() {
   return (
@@ -13,7 +14,14 @@ function App() {
       </h1>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/adverts" element={<Outlet />}>
+        <Route
+          path="/adverts"
+          element={
+            <AuthGuard>
+              <Outlet />
+            </AuthGuard>
+          }
+        >
           <Route index element={<AdvertsPage />} />
           <Route path=":id" element={<AdvertDetailPage />} />
           <Route path="new" element={<NewAdvertPage />} />
