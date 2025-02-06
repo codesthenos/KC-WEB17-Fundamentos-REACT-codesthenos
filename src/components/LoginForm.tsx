@@ -41,7 +41,7 @@ export const LoginForm = () => {
       setIsLoading(false)
     }
   }
-
+  const isDisabled = isLoading || !formData.email || !formData.password
   return (
     <form
       onSubmit={handleSubmit}
@@ -71,7 +71,8 @@ export const LoginForm = () => {
       </div>
       <button
         type="submit"
-        className="cursor-pointer rounded-xl border border-zinc-200 px-3 py-1 uppercase transition-all duration-300 ease-in-out hover:bg-zinc-500"
+        className="cursor-pointer rounded-xl border border-zinc-200 px-3 py-1 uppercase transition-all duration-300 ease-in-out hover:bg-zinc-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+        disabled={isDisabled}
       >
         login
       </button>
