@@ -8,7 +8,7 @@ export const getAdverts = async () => {
   return response.data
 }
 
-export const createAdvert = async ({ advert }: { advert: Advert }) => {
+export const createAdvert = async ({ advert }: { advert: FormData }) => {
   const response = await client.post<Advert>(advertsUrl, advert)
   return response.data
 }

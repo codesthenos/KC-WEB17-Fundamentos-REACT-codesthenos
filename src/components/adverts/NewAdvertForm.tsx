@@ -2,7 +2,6 @@ import { useRef, useState } from 'react'
 import { Checkbox } from '../Checkbox'
 import { FormField } from '../FormField'
 import { createAdvert } from '../../pages/adverts/service'
-import { Advert } from '../../pages/adverts/types'
 
 export const NewAdvertForm = () => {
   const [formData, setFormData] = useState({ name: '', price: '' })
