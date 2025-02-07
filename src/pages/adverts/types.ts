@@ -34,3 +34,7 @@ export const advertSchema = z.object({
 })
 
 export type Advert = z.infer<typeof advertSchema>
+
+export interface Tag extends HTMLInputElement {
+  name: 'motor' | 'lifestyle' | 'work' | 'mobile'
+}
