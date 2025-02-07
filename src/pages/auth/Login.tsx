@@ -1,3 +1,4 @@
+import { Footer } from '../../components/Footer'
 import { LoginForm } from '../../components/LoginForm'
 
 export const LoginPage = () => {
@@ -9,9 +10,7 @@ export const LoginPage = () => {
       <main className="mx-auto my-8 flex max-w-3xl flex-col items-center justify-center text-center font-semibold uppercase">
         <LoginForm />
       </main>
-      <footer>
-        <p className="text-center">Made with love by codesthenos | 2025</p>
-      </footer>
+      <Footer />
     </>
   )
 }
