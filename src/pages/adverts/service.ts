@@ -1,7 +1,7 @@
 import { client } from '../../api/client'
 import type { Advert } from './types'
 
-const advertsUrl = 'api/v1/adverts'
+const advertsUrl = '/v1/adverts'
 
 export const getAdverts = async () => {
   const response = await client.get<Advert[]>(advertsUrl)

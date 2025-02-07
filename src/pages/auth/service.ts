@@ -7,10 +7,10 @@ import { storage } from '../../utils/storage'
 import type { Credentials, Login } from './types'
 
 export const login = async (credentials: Credentials) => {
-  const response = await client.post<Login>('api/auth/login', credentials)
+  const response = await client.post<Login>('/auth/login', credentials)
   const { accessToken } = response.data
-  storage.set({ key: 'auth', value: accessToken })
   setAuthorizationHeader({ accessToken })
+  return { accessToken }
 }
 
 export const logout = async () => {

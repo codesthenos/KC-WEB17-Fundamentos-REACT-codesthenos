@@ -1,9 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/authContext'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { login } from '../pages/auth/service'
 import { LoadingSpinner } from './LoadingSpinner'
 import { isAxiosError } from 'axios'
+import { storage } from '../utils/storage'
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ export const LoginForm = () => {
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  const checkboxRef = useRef<HTMLInputElement>(null)
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -33,7 +36,13 @@ export const LoginForm = () => {
     try {
       setIsLoading(true)
 
-      await login({ email: formData.email, password: formData.password })
+      const { accessToken } = await login({
+        email: formData.email,
+        password: formData.password
+      })
+      if (checkboxRef.current?.checked) {
+        storage.set({ key: 'auth', value: accessToken })
+      }
       onLogin()
       navigate(location.state?.from ?? '/', { replace: true })
     } catch (error) {
@@ -64,7 +73,9 @@ export const LoginForm = () => {
           </div>
         )}
         <div className="mb-2 flex items-center justify-between gap-x-1">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="cursor-pointer">
+            Email
+          </label>
           <input
             onChange={handleInputChange}
             value={formData.email}
@@ -75,7 +86,9 @@ export const LoginForm = () => {
           />
         </div>
         <div className="mb-4 flex items-center justify-between gap-x-1">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" className="cursor-pointer">
+            Password
+          </label>
           <input
             onChange={handleInputChange}
             value={formData.password}
@@ -83,6 +96,18 @@ export const LoginForm = () => {
             id="password"
             name="password"
             className="rounded-md border border-zinc-200 px-1"
+          />
+        </div>
+        <div className="mb-4 flex items-center justify-between gap-x-1">
+          <label htmlFor="rememberPass" className="cursor-pointer">
+            Remember password
+          </label>
+          <input
+            type="checkbox"
+            id="rememberPass"
+            name="rememberPass"
+            className="cursor-pointer"
+            ref={checkboxRef}
           />
         </div>
         <button
