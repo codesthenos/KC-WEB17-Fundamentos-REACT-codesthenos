@@ -1,7 +1,7 @@
 export interface Advert {
   name: string
-  sale: boolean
-  price: number
+  sale: string
+  price: string
   tags: ('lifestyle' | 'mobile' | 'motor' | 'work')[]
-  photo?: File
+  photo?: string
 }

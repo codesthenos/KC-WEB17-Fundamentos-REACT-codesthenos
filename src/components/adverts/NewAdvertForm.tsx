@@ -1,13 +1,14 @@
 import { useRef, useState } from 'react'
 import { Checkbox } from '../Checkbox'
 import { FormField } from '../FormField'
-import { getPlaceholderFile } from '../../utils/placeholderFile'
+import { createAdvert } from '../../pages/adverts/service'
+import { Advert } from '../../pages/adverts/types'
 
 export const NewAdvertForm = () => {
   const [formData, setFormData] = useState({ name: '', price: '' })
   const saleRef = useRef<HTMLInputElement>(null)
-  const electronicsRef = useRef<HTMLInputElement>(null)
-  const sportsRef = useRef<HTMLInputElement>(null)
+  const mobileRef = useRef<HTMLInputElement>(null)
+  const workRef = useRef<HTMLInputElement>(null)
   const motorRef = useRef<HTMLInputElement>(null)
   const lifestyleRef = useRef<HTMLInputElement>(null)
   const photoRef = useRef<HTMLInputElement>(null)
@@ -25,35 +26,34 @@ export const NewAdvertForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const tagsList = [
-      electronicsRef.current,
-      sportsRef.current,
-      motorRef.current,
-      lifestyleRef.current
+    interface Tag extends HTMLInputElement {
+      name: 'motor' | 'lifestyle' | 'work' | 'mobile'
+    }
+
+    const tagsList: Tag[] = [
+      mobileRef.current as Tag,
+      workRef.current as Tag,
+      motorRef.current as Tag,
+      lifestyleRef.current as Tag
     ]
 
-    const calculateTags = (tags: (HTMLInputElement | null)[]) => {
+    const calculateTags = (tags: Tag[]) => {
       return tags
         ? tags.filter((tag) => tag?.checked).map((tag) => tag?.name)
-        : null
+        : []
     }
 
-    const calculatePhoto = (photo?: HTMLInputElement | null) => {
-      if (!photo || !photo.files?.length) {
-        return getPlaceholderFile()
-      }
-      return photo.files[0]
+    const newAdvert = new FormData()
+    newAdvert.append('name', formData.name)
+    newAdvert.append('sale', saleRef.current!.checked ? 'true' : 'false')
+    newAdvert.append('price', formData.price)
+    calculateTags(tagsList).forEach((tag) => newAdvert.append('tags', tag!))
+    if (photoRef.current && photoRef.current.files) {
+      newAdvert.append('photo', photoRef.current.files[0])
     }
 
-    const newAdvert = {
-      name: formData.name,
-      sale: saleRef.current?.checked,
-      price: +formData.price,
-      tags: calculateTags(tagsList),
-      photo: await calculatePhoto(photoRef.current)
-    }
-
-    console.log(newAdvert)
+    const createdAdvert = await createAdvert({ advert: newAdvert })
+    console.log(createdAdvert)
   }
   return (
     <form
@@ -79,12 +79,8 @@ export const NewAdvertForm = () => {
         <legend className="mb-1 text-left">TAGS</legend>
         <div className="mb-2 grid grid-cols-2">
           <div>
-            <Checkbox
-              ref={electronicsRef}
-              labelFor="electronics"
-              labelText="electronics"
-            />
-            <Checkbox ref={sportsRef} labelFor="sports" labelText="sports" />
+            <Checkbox ref={mobileRef} labelFor="mobile" labelText="mobile" />
+            <Checkbox ref={workRef} labelFor="work" labelText="work" />
           </div>
           <div>
             <Checkbox ref={motorRef} labelFor="motor" labelText="motor" />
@@ -98,7 +94,7 @@ export const NewAdvertForm = () => {
       </fieldset>
       <div className="mb-4 flex gap-x-4">
         <label htmlFor="photo" className="cursor-pointer">
-          IMAGE
+          PHOTO
         </label>
         <input
           accept="image/png, image/jpeg, image/jpg, image/webp"
