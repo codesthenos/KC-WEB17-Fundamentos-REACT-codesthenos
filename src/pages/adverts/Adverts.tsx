@@ -27,7 +27,7 @@ export const AdvertsPage = () => {
           ))
         ) : (
           <h2 className="mt-8 text-center text-4xl font-bold text-amber-400">
-            NO TWEETS
+            NO ADVERTS
           </h2>
         )}
       </ul>

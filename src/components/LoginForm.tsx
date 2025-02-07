@@ -5,6 +5,8 @@ import { login } from '../pages/auth/service'
 import { LoadingSpinner } from './LoadingSpinner'
 import { isAxiosError } from 'axios'
 import { storage } from '../utils/storage'
+import { FormField } from './FormField'
+import { Checkbox } from './Checkbox'
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -72,44 +74,25 @@ export const LoginForm = () => {
             <LoadingSpinner />
           </div>
         )}
-        <div className="mb-2 flex items-center justify-between gap-x-1">
-          <label htmlFor="email" className="cursor-pointer">
-            Email
-          </label>
-          <input
-            onChange={handleInputChange}
-            value={formData.email}
-            type="text"
-            id="email"
-            name="email"
-            className="rounded-md border border-zinc-200 px-1"
-          />
-        </div>
-        <div className="mb-4 flex items-center justify-between gap-x-1">
-          <label htmlFor="password" className="cursor-pointer">
-            Password
-          </label>
-          <input
-            onChange={handleInputChange}
-            value={formData.password}
-            type="password"
-            id="password"
-            name="password"
-            className="rounded-md border border-zinc-200 px-1"
-          />
-        </div>
-        <div className="mb-4 flex items-center justify-between gap-x-1">
-          <label htmlFor="rememberPass" className="cursor-pointer">
-            Remember password
-          </label>
-          <input
-            type="checkbox"
-            id="rememberPass"
-            name="rememberPass"
-            className="cursor-pointer"
-            ref={checkboxRef}
-          />
-        </div>
+        <FormField
+          onChange={handleInputChange}
+          value={formData.email}
+          labelFor="email"
+          labelText="Email"
+          type="text"
+        />
+        <FormField
+          onChange={handleInputChange}
+          value={formData.password}
+          labelFor="password"
+          labelText="Password"
+          type="password"
+        />
+        <Checkbox
+          labelFor="rememberPass"
+          labelText="remember password"
+          ref={checkboxRef}
+        />
         <button
           type="submit"
           className="cursor-pointer rounded-xl border border-zinc-200 px-3 py-1 uppercase transition-all duration-300 ease-in-out hover:bg-zinc-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
