@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { Checkbox } from '../Checkbox'
 import { FormField } from '../FormField'
+import { getPlaceholderFile } from '../../utils/placeholderFile'
 
 export const NewAdvertForm = () => {
   const [formData, setFormData] = useState({ name: '', price: '' })
@@ -9,6 +10,7 @@ export const NewAdvertForm = () => {
   const sportsRef = useRef<HTMLInputElement>(null)
   const motorRef = useRef<HTMLInputElement>(null)
   const lifestyleRef = useRef<HTMLInputElement>(null)
+  const photoRef = useRef<HTMLInputElement>(null)
 
   const isDisabled = !formData.name || !formData.price
 
@@ -36,12 +38,19 @@ export const NewAdvertForm = () => {
         : null
     }
 
+    const calculatePhoto = (photo?: HTMLInputElement | null) => {
+      if (!photo || !photo.files?.length) {
+        return getPlaceholderFile()
+      }
+      return photo.files[0]
+    }
+
     const newAdvert = {
       name: formData.name,
       sale: saleRef.current?.checked,
       price: +formData.price,
       tags: calculateTags(tagsList),
-      image: 'TODO FILE IMAGE'
+      photo: await calculatePhoto(photoRef.current)
     }
 
     console.log(newAdvert)
@@ -87,8 +96,17 @@ export const NewAdvertForm = () => {
           </div>
         </div>
       </fieldset>
-      <div className="mb-2 flex items-center justify-between gap-x-1">
-        IMAGE
+      <div className="mb-4 flex gap-x-4">
+        <label htmlFor="photo" className="cursor-pointer">
+          IMAGE
+        </label>
+        <input
+          accept="image/png, image/jpeg, image/jpg, image/webp"
+          type="file"
+          id="photo"
+          ref={photoRef}
+          className="max-w-48 cursor-pointer overflow-hidden text-zinc-400"
+        />
       </div>
       <button
         type="submit"
