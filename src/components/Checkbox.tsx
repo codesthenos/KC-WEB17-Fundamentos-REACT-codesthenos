@@ -8,7 +8,7 @@ interface Props extends React.ComponentProps<'input'> {
 export const Checkbox = forwardRef<HTMLInputElement, Props>(
   ({ labelFor, labelText }, ref) => {
     return (
-      <div className="mb-2 flex items-center justify-between gap-x-1">
+      <div className="mb-2 flex items-center gap-x-4">
         <label htmlFor={labelFor} className="cursor-pointer uppercase">
           {labelText}
         </label>
