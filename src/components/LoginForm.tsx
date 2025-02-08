@@ -3,10 +3,11 @@ import { useAuth } from '../contexts/authContext'
 import { useRef, useState } from 'react'
 import { login } from '../pages/auth/service'
 import { LoadingSpinner } from './LoadingSpinner'
-import { isAxiosError } from 'axios'
 import { storage } from '../utils/storage'
 import { FormField } from './FormField'
 import { Checkbox } from './Checkbox'
+import { isApiClientError } from '../api/client'
+import { ApiClientError } from '../api/error'
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ export const LoginForm = () => {
     password: ''
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<ApiClientError | null>(null)
 
   const checkboxRef = useRef<HTMLInputElement>(null)
 
@@ -48,14 +49,8 @@ export const LoginForm = () => {
       onLogin()
       navigate(location.state?.from ?? '/', { replace: true })
     } catch (error) {
-      if (isAxiosError(error)) {
-        let message = 'ERROR'
-        if (error.code === 'ERR_NETWORK') {
-          message = 'SERVER ERROR'
-        } else if (error.code === 'ERR_BAD_REQUEST') {
-          message = 'Wrong credentials'
-        }
-        setError(message)
+      if (isApiClientError(error)) {
+        setError(error)
       }
     } finally {
       setIsLoading(false)
@@ -64,7 +59,9 @@ export const LoginForm = () => {
   const isDisabled = isLoading || !formData.email || !formData.password
   return (
     <>
-      {error && <span className="mb-3 block text-red-500">{error}</span>}
+      {error && (
+        <span className="mb-3 block text-red-500">{error.message}</span>
+      )}
       <form
         onSubmit={handleSubmit}
         className="relative rounded-2xl border border-zinc-200 p-3"

@@ -4,13 +4,14 @@ import { FormField } from '../FormField'
 import { createAdvert } from '../../pages/adverts/service'
 import { useNavigate } from 'react-router-dom'
 import type { Tag } from '../../pages/adverts/types'
-import { isAxiosError } from 'axios'
 import { LoadingSpinner } from '../LoadingSpinner'
+import { isApiClientError } from '../../api/client'
+import type { ApiClientError } from '../../api/error'
 
 export const NewAdvertForm = () => {
   const [formData, setFormData] = useState({ name: '', price: '' })
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<ApiClientError | null>(null)
   const [isNoCheckedTag, setIsNoCheckedTag] = useState(true)
 
   const saleRef = useRef<HTMLInputElement>(null)
@@ -64,18 +65,11 @@ export const NewAdvertForm = () => {
       if (photoRef.current && photoRef.current.files?.length) {
         newAdvert.append('photo', photoRef.current.files[0])
       }
-
       const createdAdvert = await createAdvert({ advert: newAdvert })
       navigate(`/adverts/${createdAdvert.id}`)
     } catch (error) {
-      if (isAxiosError(error)) {
-        let message = 'ERROR'
-        if (error.code === 'ERR_NETWORK') {
-          message = 'SERVER ERROR'
-        } else if (error.code === 'ERR_BAD_REQUEST') {
-          message = 'Wrong credentials'
-        }
-        setError(message)
+      if (isApiClientError(error)) {
+        setError(error)
       }
     } finally {
       setIsLoading(false)
@@ -83,7 +77,9 @@ export const NewAdvertForm = () => {
   }
   return (
     <>
-      {error && <span className="mb-3 block text-red-500">{error}</span>}
+      {error && (
+        <span className="mb-3 block text-red-500">{error.message}</span>
+      )}
       <form
         onSubmit={handleSubmit}
         className="relative rounded-2xl border border-zinc-200 p-3"
