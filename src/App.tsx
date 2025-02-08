@@ -5,6 +5,7 @@ import { NewAdvertPage } from './pages/adverts/NewAdvert'
 import { LoginPage } from './pages/auth/Login'
 import { NotFoundPage } from './pages/errors/NotFound'
 import { AuthGuard } from './components/auth/AuthGuard'
+import { AdvertLayout } from './layouts/AdvertsLayout'
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
         path="/adverts"
         element={
           <AuthGuard>
-            <Outlet />
+            <AdvertLayout>
+              <Outlet />
+            </AdvertLayout>
           </AuthGuard>
         }
       >
