@@ -42,7 +42,7 @@ export const AdvertsList = () => {
         </div>
       )}
       {showList && (
-        <ul>
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {adverts.map((advert) => (
             <AdvertItem advert={advert} key={advert.id} />
           ))}
