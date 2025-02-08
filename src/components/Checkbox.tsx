@@ -9,7 +9,10 @@ export const Checkbox = forwardRef<HTMLInputElement, Props>(
   ({ labelFor, labelText, onClick }, ref) => {
     return (
       <div className="mb-2 flex items-center gap-x-4">
-        <label htmlFor={labelFor} className="cursor-pointer uppercase">
+        <label
+          htmlFor={labelFor}
+          className="cursor-pointer font-semibold uppercase"
+        >
           {labelText}
         </label>
         <input
