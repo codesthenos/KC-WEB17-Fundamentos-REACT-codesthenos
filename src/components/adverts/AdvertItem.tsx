@@ -1,9 +1,10 @@
+import { Link } from 'react-router-dom'
 import type { Advert } from '../../pages/adverts/types'
 
 export const AdvertItem = ({ advert }: { advert: Advert }) => {
   return (
     <li className="relative rounded-xl border border-zinc-200 px-4 py-2">
-      <a href={`/adverts/${advert.id}`} className="block h-full">
+      <Link to={`/adverts/${advert.id}`} className="block h-full">
         <article className="flex h-full flex-col gap-y-1.5">
           <header>
             <h3>{advert.name}</h3>
@@ -20,7 +21,7 @@ export const AdvertItem = ({ advert }: { advert: Advert }) => {
             </ul>
           </footer>
         </article>
-      </a>
+      </Link>
     </li>
   )
 }
