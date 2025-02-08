@@ -11,7 +11,6 @@ export const AdvertDetailPage = () => {
     <>
       <Header pathName={`Advert Detail | id: ${id} | `} />
       <main className="mx-auto my-8 flex max-w-3xl flex-col items-center justify-center text-center font-semibold uppercase">
-        <h3>TODO advert id: {id}</h3>
         <AdvertDetailArticle advertId={id!} />
         <DeleteAdvertButton advertId={id!} />
       </main>
