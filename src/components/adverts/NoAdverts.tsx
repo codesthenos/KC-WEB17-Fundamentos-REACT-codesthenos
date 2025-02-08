@@ -1,9 +1,12 @@
+import { CreateAdvertButton } from './CreateAdvertButton'
+
 export const NoAdverts = () => {
   return (
-    <div>
-      <h3 className="mt-8 text-center text-4xl font-bold text-amber-400">
-        NO ADVERTS
+    <div className="flex flex-col items-center justify-center">
+      <h3 className="font-semi my-8 text-center text-2xl">
+        Create the first advert!
       </h3>
+      <CreateAdvertButton />
     </div>
   )
 }
