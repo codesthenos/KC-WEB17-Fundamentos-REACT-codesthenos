@@ -9,7 +9,7 @@ export const AdvertDetailPage = () => {
 
   return (
     <>
-      <Header pathName={`Advert Detail | id: ${id} | `} />
+      <Header pathName={`Advert Detail with id = ${id}`} />
       <main className="mx-auto mt-16 flex max-w-3xl grow flex-col items-center text-center font-semibold uppercase">
         <AdvertDetailArticle advertId={id!} />
         <DeleteAdvertButton advertId={id!} />
