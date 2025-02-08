@@ -2,6 +2,7 @@ import { AdvertsList } from '../../components/adverts/AdvertsList'
 import { FilterSection } from '../../components/adverts/FilterSection'
 
 export const AdvertsPage = () => {
+  // AQUI METO EL CONTEXTO, NO NECESITO WRAPPEAR NADA MAS
   return (
     <>
       <FilterSection />
