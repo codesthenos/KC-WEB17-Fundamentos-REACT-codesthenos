@@ -9,7 +9,7 @@ export const advertSchema = z.object({
   tags: z.array(z.enum(['lifestyle', 'motor', 'mobile', 'work']), {
     required_error: 'Not a valid tags value'
   }),
-  photo: z.string({ required_error: 'photo is not a string' }).optional()
+  photo: z.union([z.string(), z.null()]).optional()
 })
 
 export type Advert = z.infer<typeof advertSchema>
