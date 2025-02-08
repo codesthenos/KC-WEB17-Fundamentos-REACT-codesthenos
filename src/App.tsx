@@ -3,7 +3,7 @@ import { AdvertsPage } from './pages/adverts/Adverts'
 import { AdvertDetailPage } from './pages/adverts/AdvertDetail'
 import { NewAdvertPage } from './pages/adverts/NewAdvert'
 import { LoginPage } from './pages/auth/Login'
-import { NotFoundPage } from './pages/NotFound'
+import { NotFoundPage } from './pages/errors/NotFound'
 import { AuthGuard } from './components/auth/AuthGuard'
 
 function App() {

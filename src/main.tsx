@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthProvider.tsx'
 import { storage } from './utils/storage.ts'
 import { setAuthorizationHeader } from './api/client.ts'
+import { ErrorBoundary } from './components/errors/ErrorBoundary.tsx'
 
 const accessToken = storage.get({ key: 'auth' })
 if (accessToken) {
@@ -14,10 +15,12 @@ if (accessToken) {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <AuthProvider defaultIsLogged={!!accessToken}>
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AuthProvider defaultIsLogged={!!accessToken}>
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>
 )
