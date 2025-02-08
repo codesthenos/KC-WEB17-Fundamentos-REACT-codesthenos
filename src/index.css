@@ -9,3 +9,9 @@
   background-color: rgb(34, 34, 34);
   color: rgb(233, 233, 233);
 }
+div#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  min-height: 100vh;
+}
