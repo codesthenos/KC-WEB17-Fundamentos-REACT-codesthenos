@@ -31,8 +31,10 @@ export const AdvertsProvider = ({
     fetchAdverts()
   }, [])
 
+  const advertsValue = { adverts, isLoading, error }
+
   return (
-    <AdvertsContext.Provider value={{ adverts, isLoading, error }}>
+    <AdvertsContext.Provider value={advertsValue}>
       {children}
     </AdvertsContext.Provider>
   )

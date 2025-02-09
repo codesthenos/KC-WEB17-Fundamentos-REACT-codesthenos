@@ -8,7 +8,7 @@ interface Props extends React.ComponentProps<'input'> {
 export const FilterInputText = forwardRef<HTMLInputElement, Props>(
   ({ inputId, labelText }, ref) => {
     return (
-      <div className="mb-4 flex items-center gap-x-2">
+      <div className="mb-4 flex items-center justify-between">
         <label
           htmlFor={inputId}
           className="cursor-pointer font-semibold uppercase"
