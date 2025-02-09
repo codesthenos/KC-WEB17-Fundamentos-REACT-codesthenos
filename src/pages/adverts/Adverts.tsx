@@ -7,7 +7,7 @@ export const AdvertsPage = () => {
   return (
     <FiltersProvider>
       <FilterSection />
-      <main className="mx-auto mt-16 mb-4 flex max-w-3xl grow flex-col items-center text-center font-semibold uppercase">
+      <main className="relative mx-auto mt-16 mb-4 flex max-w-3xl grow flex-col items-center text-center font-semibold uppercase">
         <AdvertsProvider>
           <AdvertsList />
         </AdvertsProvider>

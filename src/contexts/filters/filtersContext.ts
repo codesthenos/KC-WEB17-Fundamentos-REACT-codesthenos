@@ -1,9 +1,13 @@
 import { createContext, useContext } from 'react'
 
-export type Filters = {
+export interface Filters {
   name: string | null
   sale: boolean | null
   demand: boolean | null
+  motor: boolean | null
+  mobile: boolean | null
+  work: boolean | null
+  lifestyle: boolean | null
 }
 
 interface FiltersContextI {
@@ -13,15 +17,31 @@ interface FiltersContextI {
   nameRef: React.RefObject<HTMLInputElement> | null
   saleRef: React.RefObject<HTMLInputElement> | null
   demandRef: React.RefObject<HTMLInputElement> | null
+  motorRef: React.RefObject<HTMLInputElement> | null
+  mobileRef: React.RefObject<HTMLInputElement> | null
+  workRef: React.RefObject<HTMLInputElement> | null
+  lifestyleRef: React.RefObject<HTMLInputElement> | null
 }
 
 export const FiltersContext = createContext<FiltersContextI>({
-  filters: { name: null, sale: null, demand: null },
+  filters: {
+    name: null,
+    sale: null,
+    demand: null,
+    motor: null,
+    mobile: null,
+    work: null,
+    lifestyle: null
+  },
   applyFilters: () => {},
   resetFilters: () => {},
   nameRef: null,
   saleRef: null,
-  demandRef: null
+  demandRef: null,
+  motorRef: null,
+  mobileRef: null,
+  workRef: null,
+  lifestyleRef: null
 })
 
 export const useFilters = () => {
