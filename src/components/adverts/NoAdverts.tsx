@@ -1,10 +1,10 @@
-import { useFilters } from '../../contexts/filters/filtersContext'
+import { useAdverts } from '../../contexts/adverts/advertsContext'
 import { CreateAdvertButton } from './CreateAdvertButton'
 
 export const NoAdverts = () => {
-  const { filters } = useFilters()
-  const isAnyFilterActive = filters.name || filters.sale || filters.demand
-  const text = isAnyFilterActive
+  const { adverts } = useAdverts()
+
+  const text = adverts.length
     ? 'Any advert matches the filters'
     : 'Create the first advert!'
   return (

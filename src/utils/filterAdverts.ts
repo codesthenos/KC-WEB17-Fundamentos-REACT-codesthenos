@@ -11,11 +11,17 @@ export const filterAdverts = ({
   return adverts.filter((advert) => {
     if (filters.name) {
       if (filters.sale) {
-        return advert.name.includes(filters.name) && advert.sale
+        return (
+          advert.name.toLowerCase().includes(filters.name.toLowerCase()) &&
+          advert.sale
+        )
       } else if (filters.demand) {
-        return advert.name.includes(filters.name) && !advert.sale
+        return (
+          advert.name.toLowerCase().includes(filters.name.toLowerCase()) &&
+          !advert.sale
+        )
       }
-      return advert.name.includes(filters.name)
+      return advert.name.toLowerCase().includes(filters.name.toLowerCase())
     }
     if (filters.sale) {
       return advert.sale
