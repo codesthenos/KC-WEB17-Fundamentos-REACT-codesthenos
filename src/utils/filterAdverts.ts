@@ -8,8 +8,6 @@ export const filterAdverts = ({
   adverts: Advert[]
   filters: Filters
 }) => {
-  console.log(filters)
-  console.log(adverts)
   return adverts.filter((advert) => {
     if (filters.name) {
       if (filters.sale) {
