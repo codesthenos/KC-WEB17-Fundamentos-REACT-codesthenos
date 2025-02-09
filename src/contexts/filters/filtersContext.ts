@@ -1,7 +1,13 @@
 import { createContext, useContext } from 'react'
 
+export type Filters = {
+  name: string | null
+  sale: boolean | null
+  demand: boolean | null
+}
+
 interface FiltersContextI {
-  filters: { name: string | null; sale: boolean | null }
+  filters: Filters
   applyFilters: (event: React.FormEvent<HTMLFormElement>) => void
   resetFilters: () => void
   nameRef: React.RefObject<HTMLInputElement> | null
@@ -10,7 +16,7 @@ interface FiltersContextI {
 }
 
 export const FiltersContext = createContext<FiltersContextI>({
-  filters: { name: null, sale: null },
+  filters: { name: null, sale: null, demand: null },
   applyFilters: () => {},
   resetFilters: () => {},
   nameRef: null,

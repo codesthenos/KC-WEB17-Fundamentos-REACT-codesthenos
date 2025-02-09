@@ -47,7 +47,7 @@ export const FiltersProvider = ({
     })
 
     if (nameRef.current) {
-      nameRef.current.value = name || ''
+      nameRef.current.value = name?.trim() || ''
     }
     if (saleRef.current) {
       saleRef.current.checked = normalizedSale ?? false
@@ -60,7 +60,7 @@ export const FiltersProvider = ({
   const handleApplyFilters = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const nameSearchParam = nameRef.current!.value
+    const nameSearchParam = nameRef.current!.value.trim()
     let saleSearchParam = saleRef.current!.checked ? 'true' : 'false'
     let demandSearchParam = demandRef.current!.checked ? 'true' : 'false'
 

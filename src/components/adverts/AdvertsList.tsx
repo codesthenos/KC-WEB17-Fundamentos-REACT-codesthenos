@@ -2,12 +2,17 @@ import { NoAdverts } from './NoAdverts'
 import { AdvertItem } from './AdvertItem'
 import { LoadingSpinner } from '../LoadingSpinner'
 import { useAdverts } from '../../contexts/adverts/advertsContext'
+import { useFilters } from '../../contexts/filters/filtersContext'
+import { filterAdverts } from '../../utils/filterAdverts'
 
 export const AdvertsList = () => {
   const { adverts, isLoading, error } = useAdverts()
+  const { filters } = useFilters()
 
-  const showList = !isLoading && !error && !!adverts.length
-  const showNoAdverts = !isLoading && !error && !adverts.length
+  const renderAdverts = filterAdverts({ adverts: [...adverts], filters })
+
+  const showList = !isLoading && !error && !!renderAdverts.length
+  const showNoAdverts = !isLoading && !error && !renderAdverts.length
 
   return (
     <>
@@ -21,7 +26,7 @@ export const AdvertsList = () => {
       )}
       {showList && (
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {adverts.map((advert) => (
+          {renderAdverts.map((advert) => (
             <AdvertItem advert={advert} key={advert.id} />
           ))}
         </ul>

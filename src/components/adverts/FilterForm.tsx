@@ -4,9 +4,8 @@ import { Checkbox } from '../Checkbox'
 import { useFilters } from '../../contexts/filters/filtersContext'
 
 export const FilterForm = () => {
-  const { filters, applyFilters, resetFilters, nameRef, saleRef, demandRef } =
+  const { applyFilters, resetFilters, nameRef, saleRef, demandRef } =
     useFilters()
-  console.log(filters)
   return (
     <form onSubmit={applyFilters} className="mx-auto mt-4 max-w-3xs">
       <FilterInputText inputId="nameFilter" labelText="name" ref={nameRef} />
