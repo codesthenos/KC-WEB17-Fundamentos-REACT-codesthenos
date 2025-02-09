@@ -1,32 +1,10 @@
-import { useEffect, useState } from 'react'
-import { getAdverts } from '../../pages/adverts/service'
-import type { Advert } from '../../pages/adverts/types'
 import { NoAdverts } from './NoAdverts'
 import { AdvertItem } from './AdvertItem'
 import { LoadingSpinner } from '../LoadingSpinner'
-import type { ApiClientError } from '../../api/error'
-import { isApiClientError } from '../../api/client'
+import { useAdverts } from '../../contexts/adverts/advertsContext'
 
 export const AdvertsList = () => {
-  const [adverts, setAdverts] = useState<Advert[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<ApiClientError | null>(null)
-
-  useEffect(() => {
-    const fetchAdverts = async () => {
-      try {
-        const fetchedAdverts = await getAdverts()
-        setAdverts(fetchedAdverts)
-      } catch (error) {
-        if (isApiClientError(error)) {
-          setError(error)
-        }
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    fetchAdverts()
-  }, [])
+  const { adverts, isLoading, error } = useAdverts()
 
   const showList = !isLoading && !error && !!adverts.length
   const showNoAdverts = !isLoading && !error && !adverts.length
