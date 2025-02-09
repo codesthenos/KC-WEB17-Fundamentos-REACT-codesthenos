@@ -4,10 +4,10 @@ export interface Filters {
   name: string | null
   sale: boolean | null
   demand: boolean | null
-  motor: boolean | null
-  mobile: boolean | null
-  work: boolean | null
-  lifestyle: boolean | null
+  motor: string | null
+  mobile: string | null
+  work: string | null
+  lifestyle: string | null
 }
 
 interface FiltersContextI {

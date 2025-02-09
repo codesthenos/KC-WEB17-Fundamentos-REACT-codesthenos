@@ -57,10 +57,10 @@ export const FiltersProvider = ({
       name: normalizedName,
       sale: normalizedSale,
       demand: normalizedDemand,
-      motor: normalizedMotor,
-      mobile: normalizedMobile,
-      work: normalizedWork,
-      lifestyle: normalizedLifestyle
+      motor,
+      mobile,
+      work,
+      lifestyle
     })
 
     if (nameRef.current) {
@@ -97,10 +97,10 @@ export const FiltersProvider = ({
       name: nameSearchParam,
       sale: saleSearchParam,
       demand: demandSearchParam,
-      motor: motorRef.current!.checked ? 'true' : '',
-      mobile: mobileRef.current!.checked ? 'true' : '',
-      work: workRef.current!.checked ? 'true' : '',
-      lifestyle: lifestyleRef.current!.checked ? 'true' : ''
+      motor: motorRef.current!.checked ? motorRef.current!.id : '',
+      mobile: mobileRef.current!.checked ? mobileRef.current!.id : '',
+      work: workRef.current!.checked ? workRef.current!.id : '',
+      lifestyle: lifestyleRef.current!.checked ? lifestyleRef.current!.id : ''
     })
   }
 
