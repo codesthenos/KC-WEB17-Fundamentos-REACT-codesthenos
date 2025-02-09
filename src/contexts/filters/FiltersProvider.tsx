@@ -61,9 +61,13 @@ export const FiltersProvider = ({
     event.preventDefault()
 
     const nameSearchParam = nameRef.current!.value
-    const saleSearchParam = saleRef.current!.checked ? 'true' : 'false'
-    const demandSearchParam = demandRef.current!.checked ? 'true' : 'false'
+    let saleSearchParam = saleRef.current!.checked ? 'true' : 'false'
+    let demandSearchParam = demandRef.current!.checked ? 'true' : 'false'
 
+    if (saleSearchParam === demandSearchParam) {
+      saleSearchParam = 'false'
+      demandSearchParam = 'false'
+    }
     setSearchParams({
       name: nameSearchParam,
       sale: saleSearchParam,
