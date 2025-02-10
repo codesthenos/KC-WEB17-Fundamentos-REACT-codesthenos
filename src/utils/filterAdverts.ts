@@ -32,6 +32,31 @@ const filterTag = ({
 }) => {
   return adverts.filter((advert) => advert.tags.includes(tag))
 }
+const filterTags = ({
+  adverts,
+  tags,
+  filterTag
+}: {
+  adverts: Advert[]
+  tags: ('motor' | 'lifestyle' | 'work' | 'mobile' | null)[]
+  filterTag: ({
+    adverts,
+    tag
+  }: {
+    adverts: Advert[]
+    tag: 'motor' | 'lifestyle' | 'work' | 'mobile'
+  }) => Advert[]
+}) => {
+  let filteredAdverts = [...adverts]
+
+  tags.forEach((tag) => {
+    if (tag) {
+      filteredAdverts = filterTag({ adverts, tag })
+    }
+  })
+
+  return filteredAdverts
+}
 export const filterAdverts = ({
   adverts,
   filters
@@ -40,7 +65,13 @@ export const filterAdverts = ({
   filters: Filters
 }) => {
   const { demand, sale, name, motor, mobile, work, lifestyle } = filters
-  const tags = [motor, mobile, work, lifestyle]
+  const tags = [motor, mobile, work, lifestyle] as (
+    | 'motor'
+    | 'lifestyle'
+    | 'work'
+    | 'mobile'
+    | null
+  )[]
   let filteredAdverts = [...adverts]
   if (sale || demand) {
     filteredAdverts = filterSale({
@@ -52,15 +83,9 @@ export const filterAdverts = ({
   if (name) {
     filteredAdverts = filterName({ adverts: filteredAdverts, name: name })
   }
-  if (tags) {
-    tags.forEach((tag) => {
-      if (tag) {
-        filteredAdverts = filterTag({
-          adverts: filteredAdverts,
-          tag: tag as 'motor' | 'lifestyle' | 'work' | 'mobile'
-        })
-      }
-    })
+
+  if (tags.length) {
+    filteredAdverts = filterTags({ adverts, filterTag, tags })
   }
   return filteredAdverts
 }
