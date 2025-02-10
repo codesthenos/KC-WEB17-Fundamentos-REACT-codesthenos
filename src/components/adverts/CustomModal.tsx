@@ -1,17 +1,22 @@
 import { useRef } from 'react'
+import { LoadingSpinner } from '../LoadingSpinner'
 
 interface Props extends React.ComponentProps<'dialog'> {
   onConfirm: () => void
   buttonText: string
   modalText1: string
   modalText2: string
+  error?: string | null
+  isLoading?: boolean
 }
 
 export const CustomModal = ({
   onConfirm,
   buttonText,
   modalText1,
-  modalText2
+  modalText2,
+  error,
+  isLoading
 }: Props) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const handleOpenModal = () => {
@@ -23,7 +28,7 @@ export const CustomModal = ({
 
   const handleConfirm = () => {
     onConfirm()
-    handleCloseModal()
+    // handleCloseModal()
   }
 
   const handleCancel = () => {
@@ -42,6 +47,12 @@ export const CustomModal = ({
         className="mx-auto mt-85 rounded-xl bg-zinc-700 px-10 py-6 text-zinc-200 sm:min-w-sm"
       >
         <form method="dialog">
+          {error && <span className="mb-3 block text-red-500">{error}</span>}
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-zinc-900">
+              <LoadingSpinner />
+            </div>
+          )}
           <p className="text-center">
             {modalText1} <span className="text-red-500">{modalText2}</span>.
           </p>
