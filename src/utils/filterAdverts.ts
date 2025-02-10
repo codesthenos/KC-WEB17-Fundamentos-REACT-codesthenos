@@ -51,7 +51,7 @@ const filterTags = ({
 
   tags.forEach((tag) => {
     if (tag) {
-      filteredAdverts = filterTag({ adverts, tag })
+      filteredAdverts = filterTag({ adverts: filteredAdverts, tag })
     }
   })
 
@@ -85,7 +85,7 @@ export const filterAdverts = ({
   }
 
   if (tags.length) {
-    filteredAdverts = filterTags({ adverts, filterTag, tags })
+    filteredAdverts = filterTags({ adverts: filteredAdverts, filterTag, tags })
   }
   return filteredAdverts
 }
