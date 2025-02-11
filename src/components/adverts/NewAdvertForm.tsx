@@ -11,7 +11,7 @@ import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContex
 
 export const NewAdvertForm = () => {
   const [formData, setFormData] = useState({ name: '', price: '' })
-  const { error, applyError, clearError, loading, applyLoading, clearLoading } =
+  const { error, applyError, loading, applyLoading, clearLoading } =
     useErrorLoading()
   const [isNoCheckedTag, setIsNoCheckedTag] = useState(true)
 
@@ -75,7 +75,6 @@ export const NewAdvertForm = () => {
         applyError({ error: new ApiClientError('SOMETHING WENT WRONG') })
       }
     } finally {
-      setTimeout(clearError, 2000)
       clearLoading()
     }
   }

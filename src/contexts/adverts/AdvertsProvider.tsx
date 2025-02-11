@@ -12,12 +12,10 @@ export const AdvertsProvider = ({
   children: React.ReactNode
 }) => {
   const [adverts, setAdverts] = useState<Advert[] | null>(null)
-  const { applyError, clearError, applyLoading, clearLoading } =
-    useErrorLoading()
+  const { applyError, applyLoading, clearLoading } = useErrorLoading()
 
   useEffect(() => {
     const fetchAdverts = async () => {
-      clearError()
       applyLoading()
       try {
         const fetchedAdverts = await getAdverts()

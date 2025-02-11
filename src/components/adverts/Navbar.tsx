@@ -1,11 +1,18 @@
 import { NavLink } from 'react-router-dom'
 import { LogoutButton } from '../auth/LogoutButton'
+import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContext'
 
 export const Navbar = () => {
+  const { clearError } = useErrorLoading()
+
+  const handleCLick = () => {
+    clearError()
+  }
   return (
     <nav className="mt-4 flex items-center justify-center gap-x-4">
       <div>
         <NavLink
+          onClick={handleCLick}
           to="/adverts"
           className={({ isActive }) =>
             isActive
@@ -19,6 +26,7 @@ export const Navbar = () => {
       </div>
       <div>
         <NavLink
+          onClick={handleCLick}
           to="/adverts/new"
           className={({ isActive }) =>
             isActive
