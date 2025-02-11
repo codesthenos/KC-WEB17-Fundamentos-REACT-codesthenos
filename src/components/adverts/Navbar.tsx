@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { LogoutButton } from '../auth/LogoutButton'
 import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContext'
+import { ModalErrorLoadingProvider } from '../../contexts/modal-error-loading/modalErrorLoadingProvider'
 
 export const Navbar = () => {
   const { clearError } = useErrorLoading()
@@ -38,7 +39,9 @@ export const Navbar = () => {
           NEW ADVERT
         </NavLink>
       </div>
-      <LogoutButton />
+      <ModalErrorLoadingProvider>
+        <LogoutButton />
+      </ModalErrorLoadingProvider>
     </nav>
   )
 }

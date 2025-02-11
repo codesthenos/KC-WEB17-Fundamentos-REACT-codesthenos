@@ -3,26 +3,33 @@ import { storage } from '../../utils/storage'
 import { CustomModal } from '../adverts/CustomModal'
 import { ApiClientError } from '../../api/error'
 import { isApiClientError } from '../../api/client'
-import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContext'
+import { useModalErrorLoading } from '../../contexts/modal-error-loading/modalErrorLoadingContext'
 
 export const LogoutButton = () => {
   const navigate = useNavigate()
-  const { error, applyError, clearError, loading, applyLoading, clearLoading } =
-    useErrorLoading()
+  const {
+    modalError,
+    modalApplyError,
+    modalClearError,
+    modalLoading,
+    modalApplyLoading,
+    modalClearLoading
+  } = useModalErrorLoading()
 
   const handleLogout = () => {
     try {
-      applyLoading()
+      modalClearError()
+      modalApplyLoading()
       storage.remove({ key: 'auth' })
       navigate('/login')
     } catch (error) {
       if (isApiClientError(error)) {
-        applyError({ error })
+        modalApplyError({ error })
       } else {
-        applyError({ error: new ApiClientError('SOMETHING WENT WRONG') })
+        modalApplyError({ error: new ApiClientError('SOMETHING WENT WRONG') })
       }
     } finally {
-      clearLoading()
+      modalClearLoading()
     }
   }
   return (
@@ -31,9 +38,9 @@ export const LogoutButton = () => {
       modalText1="PROCEEDING TO"
       modalText2="LOGOUT"
       onConfirm={handleLogout}
-      error={error?.message}
-      isLoading={loading}
-      clearError={clearError}
+      error={modalError?.message}
+      isLoading={modalLoading}
+      clearError={modalClearError}
     />
   )
 }

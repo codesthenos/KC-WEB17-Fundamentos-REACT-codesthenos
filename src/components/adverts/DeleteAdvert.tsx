@@ -2,27 +2,33 @@ import { useNavigate } from 'react-router-dom'
 import { deleteAdvert } from '../../pages/adverts/service'
 import { isApiClientError } from '../../api/client'
 import { CustomModal } from './CustomModal'
-import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContext'
 import { ApiClientError } from '../../api/error'
+import { useModalErrorLoading } from '../../contexts/modal-error-loading/modalErrorLoadingContext'
 
 export const DeleteAdvertButton = ({ advertId }: { advertId: string }) => {
   const navigate = useNavigate()
-  const { error, applyError, clearError, loading, applyLoading, clearLoading } =
-    useErrorLoading()
+  const {
+    modalError,
+    modalApplyError,
+    modalClearError,
+    modalLoading,
+    modalApplyLoading,
+    modalClearLoading
+  } = useModalErrorLoading()
 
   const handleDelete = async () => {
     try {
-      applyLoading()
+      modalApplyLoading()
       await deleteAdvert({ id: advertId })
       navigate('/', { replace: true })
     } catch (error) {
       if (isApiClientError(error)) {
-        applyError({ error })
+        modalApplyError({ error })
       } else {
-        applyError({ error: new ApiClientError('SOMETHING WENT WRONG') })
+        modalApplyError({ error: new ApiClientError('SOMETHING WENT WRONG') })
       }
     } finally {
-      clearLoading()
+      modalClearLoading()
     }
   }
   return (
@@ -31,9 +37,9 @@ export const DeleteAdvertButton = ({ advertId }: { advertId: string }) => {
       modalText1="PERMANENT"
       modalText2="DELETING"
       onConfirm={handleDelete}
-      error={error?.message}
-      isLoading={loading}
-      clearError={clearError}
+      error={modalError?.message}
+      isLoading={modalLoading}
+      clearError={modalClearError}
     />
   )
 }
