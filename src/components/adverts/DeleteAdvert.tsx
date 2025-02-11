@@ -10,6 +10,9 @@ export const DeleteAdvertButton = ({ advertId }: { advertId: string }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<ApiClientError | null>(null)
 
+  const clearError = () => {
+    setError(null)
+  }
   const handleDelete = async () => {
     try {
       setIsLoading(true)
@@ -31,6 +34,7 @@ export const DeleteAdvertButton = ({ advertId }: { advertId: string }) => {
       onConfirm={handleDelete}
       error={error?.message}
       isLoading={isLoading}
+      clearError={clearError}
     />
   )
 }
