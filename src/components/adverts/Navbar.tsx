@@ -31,8 +31,8 @@ export const Navbar = () => {
           to="/adverts/new"
           className={({ isActive }) =>
             isActive
-              ? 'disabled pointer-events-none block w-fit rounded-2xl border-2 bg-zinc-200 px-3 py-1 font-bold text-zinc-800 uppercase'
-              : 'block w-fit rounded-2xl border-2 bg-zinc-800 px-3 py-1 font-bold text-zinc-200 uppercase transition-all duration-500 ease-in-out hover:scale-110 hover:bg-zinc-200 hover:text-zinc-800'
+              ? 'disabled pointer-events-none block w-fit rounded-2xl border-2 bg-zinc-200 px-3 py-1 font-bold text-nowrap text-zinc-800 uppercase'
+              : 'block w-fit rounded-2xl border-2 bg-zinc-800 px-3 py-1 font-bold text-nowrap text-zinc-200 uppercase transition-all duration-500 ease-in-out hover:scale-110 hover:bg-zinc-200 hover:text-zinc-800'
           }
           end
         >
