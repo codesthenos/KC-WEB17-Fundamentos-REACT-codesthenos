@@ -3,6 +3,7 @@ import { deleteAdvert } from '../../pages/adverts/service'
 import { isApiClientError } from '../../api/client'
 import { CustomModal } from './CustomModal'
 import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContext'
+import { ApiClientError } from '../../api/error'
 
 export const DeleteAdvertButton = ({ advertId }: { advertId: string }) => {
   const navigate = useNavigate()
@@ -17,6 +18,8 @@ export const DeleteAdvertButton = ({ advertId }: { advertId: string }) => {
     } catch (error) {
       if (isApiClientError(error)) {
         applyError({ error })
+      } else {
+        applyError({ error: new ApiClientError('SOMETHING WENT WRONG') })
       }
     } finally {
       clearLoading()

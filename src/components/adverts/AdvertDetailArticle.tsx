@@ -4,16 +4,18 @@ import { getAdvert } from '../../pages/adverts/service'
 import type { Advert } from '../../pages/adverts/types'
 import { LoadingSpinner } from '../LoadingSpinner'
 import { useNavigate } from 'react-router-dom'
+import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContext'
 
 export const AdvertDetailArticle = ({ advertId }: { advertId: string }) => {
   const [advert, setAdvert] = useState<Advert | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const { loading, applyLoading, clearLoading } = useErrorLoading()
 
   const navigate = useNavigate()
 
   useEffect(() => {
     const fetchAdverts = async () => {
       try {
+        applyLoading()
         const fetchedAdverts = await getAdvert({ id: advertId })
         setAdvert(fetchedAdverts)
       } catch (error) {
@@ -21,19 +23,19 @@ export const AdvertDetailArticle = ({ advertId }: { advertId: string }) => {
           navigate('/404', { replace: true })
         }
       } finally {
-        setIsLoading(false)
+        clearLoading()
       }
     }
     fetchAdverts()
-  }, [advertId, navigate])
+  }, [advertId, navigate, applyLoading, clearLoading])
 
-  const showAdvert = !isLoading && !!advert
+  const showAdvert = !loading && !!advert
   const advertOn = advert?.sale ? 'SALE' : 'DEMAND'
 
   return (
     <>
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-zinc-900">
+      {loading && (
+        <div className="my-6 flex h-[150px] w-[300px] items-center justify-center rounded-2xl bg-zinc-900">
           <LoadingSpinner />
         </div>
       )}

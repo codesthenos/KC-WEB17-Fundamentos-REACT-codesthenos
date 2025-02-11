@@ -7,7 +7,7 @@ export const AdvertDetailPage = () => {
 
   return (
     <>
-      <main className="mx-auto mt-16 flex max-w-3xl grow flex-col items-center text-center font-semibold uppercase">
+      <main className="relative mx-auto mt-16 flex max-w-3xl grow flex-col items-center text-center font-semibold uppercase">
         <AdvertDetailArticle advertId={id!} />
         <DeleteAdvertButton advertId={id!} />
       </main>

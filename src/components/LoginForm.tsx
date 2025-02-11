@@ -8,14 +8,15 @@ import { FormField } from './FormField'
 import { Checkbox } from './Checkbox'
 import { isApiClientError } from '../api/client'
 import { ApiClientError } from '../api/error'
+import { useErrorLoading } from '../contexts/error-loading/errorLoadingContext'
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<ApiClientError | null>(null)
+  const { error, applyError, clearError, loading, applyLoading, clearLoading } =
+    useErrorLoading()
 
   const checkboxRef = useRef<HTMLInputElement>(null)
 
@@ -37,7 +38,8 @@ export const LoginForm = () => {
     event.preventDefault()
 
     try {
-      setIsLoading(true)
+      clearError()
+      applyLoading()
 
       const { accessToken } = await login({
         email: formData.email,
@@ -50,13 +52,15 @@ export const LoginForm = () => {
       navigate(location.state?.from ?? '/', { replace: true })
     } catch (error) {
       if (isApiClientError(error)) {
-        setError(error)
+        applyError({ error })
+      } else {
+        applyError({ error: new ApiClientError('SOMETHING WENT WRONG') })
       }
     } finally {
-      setIsLoading(false)
+      clearLoading()
     }
   }
-  const isDisabled = isLoading || !formData.email || !formData.password
+  const isDisabled = loading || !formData.email || !formData.password
   return (
     <>
       {error && (
@@ -66,7 +70,7 @@ export const LoginForm = () => {
         onSubmit={handleSubmit}
         className="relative rounded-2xl border border-zinc-200 p-3"
       >
-        {isLoading && (
+        {loading && (
           <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-zinc-900">
             <LoadingSpinner />
           </div>

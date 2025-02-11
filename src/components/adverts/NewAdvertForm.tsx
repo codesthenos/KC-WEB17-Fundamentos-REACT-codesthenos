@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom'
 import type { Tag } from '../../pages/adverts/types'
 import { LoadingSpinner } from '../LoadingSpinner'
 import { isApiClientError } from '../../api/client'
-import type { ApiClientError } from '../../api/error'
+import { ApiClientError } from '../../api/error'
+import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContext'
 
 export const NewAdvertForm = () => {
   const [formData, setFormData] = useState({ name: '', price: '' })
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<ApiClientError | null>(null)
+  const { error, applyError, clearError, loading, applyLoading, clearLoading } =
+    useErrorLoading()
   const [isNoCheckedTag, setIsNoCheckedTag] = useState(true)
 
   const saleRef = useRef<HTMLInputElement>(null)
@@ -48,7 +49,7 @@ export const NewAdvertForm = () => {
     event.preventDefault()
 
     try {
-      setIsLoading(true)
+      applyLoading()
 
       const calculateTags = (tags: Tag[]) => {
         return tags
@@ -69,10 +70,13 @@ export const NewAdvertForm = () => {
       navigate(`/adverts/${createdAdvert.id}`)
     } catch (error) {
       if (isApiClientError(error)) {
-        setError(error)
+        applyError({ error })
+      } else {
+        applyError({ error: new ApiClientError('SOMETHING WENT WRONG') })
       }
     } finally {
-      setIsLoading(false)
+      setTimeout(clearError, 2000)
+      clearLoading()
     }
   }
   return (
@@ -84,7 +88,7 @@ export const NewAdvertForm = () => {
         onSubmit={handleSubmit}
         className="relative rounded-2xl border border-zinc-200 p-3"
       >
-        {isLoading && (
+        {loading && (
           <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-zinc-900">
             <LoadingSpinner />
           </div>

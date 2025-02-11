@@ -67,9 +67,10 @@ export const CustomModal = ({
           <p className="mb-12 text-center">ARE YOU SURE?</p>
           <div className="flex items-center justify-between">
             <button
+              disabled={!!error}
               type="button"
               onClick={handleConfirm}
-              className="block w-fit cursor-pointer rounded-2xl border-2 bg-zinc-800 px-3 py-1 font-bold text-zinc-200 uppercase transition-all duration-500 ease-in-out hover:scale-110 hover:bg-zinc-200 hover:text-zinc-800"
+              className="block w-fit cursor-pointer rounded-2xl border-2 bg-zinc-800 px-3 py-1 font-bold text-zinc-200 uppercase transition-all duration-500 ease-in-out hover:scale-110 hover:bg-zinc-200 hover:text-zinc-800 disabled:pointer-events-none disabled:bg-red-400"
             >
               Confirm
             </button>
