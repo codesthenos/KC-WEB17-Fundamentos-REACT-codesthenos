@@ -4,23 +4,26 @@ import { LoadingSpinner } from '../LoadingSpinner'
 import { useAdverts } from '../../contexts/adverts/advertsContext'
 import { useFilters } from '../../contexts/filters/filtersContext'
 import { filterAdverts } from '../../utils/filterAdverts'
+import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContext'
 
 export const AdvertsList = () => {
-  const { adverts, isLoading, error } = useAdverts()
+  const { adverts } = useAdverts()
   const { filters } = useFilters()
+  const { loading, error } = useErrorLoading()
+  const renderAdverts = adverts
+    ? filterAdverts({ adverts: [...adverts], filters })
+    : []
 
-  const renderAdverts = filterAdverts({ adverts: [...adverts], filters })
-
-  const showList = !isLoading && !error && !!renderAdverts.length
-  const showNoAdverts = !isLoading && !error && !renderAdverts.length
+  const showList = !loading && !error && !!adverts && !!renderAdverts.length
+  const showNoAdverts = !loading && !error && !!adverts && !renderAdverts.length
 
   return (
     <>
       {error && (
         <span className="mb-3 block text-red-500">{error.message}</span>
       )}
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-zinc-900">
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center">
           <LoadingSpinner />
         </div>
       )}

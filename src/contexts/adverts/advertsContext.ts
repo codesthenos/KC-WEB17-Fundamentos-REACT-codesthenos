@@ -1,17 +1,12 @@
 import { createContext, useContext } from 'react'
 import { Advert } from '../../pages/adverts/types'
-import { ApiClientError } from '../../api/error'
 
 interface AdvertsContextI {
-  adverts: Advert[]
-  error: ApiClientError | null
-  isLoading: boolean
+  adverts: Advert[] | null
 }
 
 export const AdvertsContext = createContext<AdvertsContextI>({
-  adverts: [],
-  error: null,
-  isLoading: false
+  adverts: null
 })
 
 export const useAdverts = () => {
