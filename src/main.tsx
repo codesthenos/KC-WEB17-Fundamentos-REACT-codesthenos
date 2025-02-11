@@ -7,6 +7,7 @@ import { AuthProvider } from './contexts/auth/AuthProvider.tsx'
 import { storage } from './utils/storage.ts'
 import { setAuthorizationHeader } from './api/client.ts'
 import { ErrorBoundary } from './components/errors/ErrorBoundary.tsx'
+import { ErrorLoadingProvider } from './contexts/error-loading/ErrorLoadingProvider.tsx'
 
 const accessToken = storage.get({ key: 'auth' })
 if (accessToken) {
@@ -18,7 +19,9 @@ createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       <BrowserRouter>
         <AuthProvider defaultIsLogged={!!accessToken}>
-          <App />
+          <ErrorLoadingProvider>
+            <App />
+          </ErrorLoadingProvider>
         </AuthProvider>
       </BrowserRouter>
     </ErrorBoundary>

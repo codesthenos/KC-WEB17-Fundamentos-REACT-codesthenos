@@ -2,28 +2,24 @@ import { useNavigate } from 'react-router-dom'
 import { deleteAdvert } from '../../pages/adverts/service'
 import { isApiClientError } from '../../api/client'
 import { CustomModal } from './CustomModal'
-import { useState } from 'react'
-import type { ApiClientError } from '../../api/error'
+import { useErrorLoading } from '../../contexts/error-loading/errorLoadingContext'
 
 export const DeleteAdvertButton = ({ advertId }: { advertId: string }) => {
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<ApiClientError | null>(null)
+  const { error, applyError, clearError, loading, applyLoading, clearLoading } =
+    useErrorLoading()
 
-  const clearError = () => {
-    setError(null)
-  }
   const handleDelete = async () => {
     try {
-      setIsLoading(true)
+      applyLoading()
       await deleteAdvert({ id: advertId })
       navigate('/', { replace: true })
     } catch (error) {
       if (isApiClientError(error)) {
-        setError(error)
+        applyError({ error })
       }
     } finally {
-      setIsLoading(false)
+      clearLoading()
     }
   }
   return (
@@ -33,7 +29,7 @@ export const DeleteAdvertButton = ({ advertId }: { advertId: string }) => {
       modalText2="DELETING"
       onConfirm={handleDelete}
       error={error?.message}
-      isLoading={isLoading}
+      isLoading={loading}
       clearError={clearError}
     />
   )

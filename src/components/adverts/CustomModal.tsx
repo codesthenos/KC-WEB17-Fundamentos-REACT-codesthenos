@@ -7,7 +7,7 @@ interface Props extends React.ComponentProps<'dialog'> {
   modalText1: string
   modalText2: string
   error?: string | null
-  isLoading: boolean
+  isLoading: boolean | null
   clearError: () => void
 }
 
